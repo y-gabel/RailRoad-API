@@ -1,0 +1,394 @@
+openapi: 3.0.0
+info:
+  title: RailRoad API
+  version: 1.0.0
+  description: Documentation de l'API RailRoad
+
+paths:
+  /users/register:
+    post:
+      summary: Créer un nouvel utilisateur
+      tags:
+        - Utilisateurs
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '201':
+          description: Utilisateur créé avec succès
+        '400':
+          description: Erreur de validation ou d'email déjà utilisé
+        '500':
+          description: Erreur serveur
+
+  /users/login:
+    post:
+      summary: Connexion utilisateur
+      tags:
+        - Utilisateurs
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Login'
+      responses:
+        '200':
+          description: Connexion réussie
+        '401':
+          description: Identifiants incorrects
+        '500':
+          description: Erreur serveur
+
+  /users/{id}:
+    get:
+      summary: Obtenir les informations d'un utilisateur
+      tags:
+        - Utilisateurs
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Informations de l'utilisateur récupérées avec succès
+        '404':
+          description: Utilisateur non trouvé
+        '500':
+          description: Erreur serveur
+
+    put:
+      summary: Mettre à jour les informations d'un utilisateur
+      tags:
+        - Utilisateurs
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserUpdate'
+      responses:
+        '200':
+          description: Informations de l'utilisateur mises à jour avec succès
+        '401':
+          description: Non autorisé à mettre à jour cet utilisateur
+        '404':
+          description: Utilisateur non trouvé
+        '500':
+          description: Erreur serveur
+
+    delete:
+      summary: Supprimer un utilisateur
+      tags:
+        - Utilisateurs
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Utilisateur supprimé avec succès
+        '401':
+          description: Non autorisé à supprimer cet utilisateur
+        '404':
+          description: Utilisateur non trouvé
+        '500':
+          description: Erreur serveur
+
+  /trains:
+    get:
+      summary: Obtenir la liste de tous les trains
+      tags:
+        - Trains
+      parameters:
+        - in: query
+          name: sortBy
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Liste de trains récupérée avec succès
+        '500':
+          description: Erreur serveur
+
+  /trains/{id}:
+    get:
+      summary: Obtenir les informations d'un train
+      tags:
+        - Trains
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Informations du train récupérées avec succès
+        '404':
+          description: Train non trouvé
+        '500':
+          description: Erreur serveur
+
+    put:
+      summary: Mettre à jour les informations d'un train
+      tags:
+        - Trains
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TrainUpdate'
+      responses:
+        '200':
+          description: Informations du train mises à jour avec succès
+        '401':
+          description: Non autorisé à mettre à jour ce train
+        '404':
+          description: Train non trouvé
+        '500':
+          description: Erreur serveur
+
+    delete:
+      summary: Supprimer un train
+      tags:
+        - Trains
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Train supprimé avec succès
+        '401':
+          description: Non autorisé à supprimer ce train
+        '404':
+          description: Train non trouvé
+        '500':
+          description: Erreur serveur
+
+  /stations:
+    get:
+      summary: Obtenir la liste de toutes les gares
+      tags:
+        - Gares
+      parameters:
+        - in: query
+          name: sortBy
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Liste de gares récupérée avec succès
+        '500':
+          description: Erreur serveur
+
+  /stations/{id}:
+    get:
+      summary: Obtenir les informations d'une gare
+      tags:
+        - Gares
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Informations de la gare récupérées avec succès
+        '404':
+          description: Gare non trouvée
+        '500':
+          description: Erreur serveur
+
+    put:
+      summary: Mettre à jour les informations d'une gare
+      tags:
+        - Gares
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StationUpdate'
+      responses:
+        '200':
+          description: Informations de la gare mises à jour avec succès
+        '401':
+          description: Non autorisé à mettre à jour cette gare
+        '404':
+          description: Gare non trouvée
+        '500':
+          description: Erreur serveur
+
+    delete:
+      summary: Supprimer une gare
+      tags:
+        - Gares
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Gare supprimée avec succès
+        '401':
+          description: Non autorisé à supprimer cette gare
+        '404':
+          description: Gare non trouvée
+        '500':
+          description: Erreur serveur
+
+  /reservations:
+    post:
+      summary: Créer une nouvelle réservation
+      tags:
+        - Réservations
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Reservation'
+      responses:
+        '201':
+          description: Réservation créée avec succès
+        '400':
+          description: Erreur de validation ou de réservation existante
+        '500':
+          description: Erreur serveur
+
+  /reservations/{reservationId}/validate:
+    post:
+      summary: Valider une réservation
+      tags:
+        - Réservations
+      parameters:
+        - in: path
+          name: reservationId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Réservation validée avec succès
+        '401':
+          description: Non autorisé à valider cette réservation
+        '404':
+          description: Réservation non trouvée
+        '500':
+          description: Erreur serveur
+
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        email:
+          type: string
+        pseudo:
+          type: string
+        password:
+          type: string
+        role:
+          type: string
+      required:
+        - email
+        - pseudo
+        - password
+        - role
+
+    Login:
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+      required:
+        - email
+        - password
+
+    UserUpdate:
+      type: object
+      properties:
+        pseudo:
+          type: string
+      required:
+        - pseudo
+
+    TrainUpdate:
+      type: object
+      properties:
+        name:
+          type: string
+        departureStation:
+          type: string
+        arrivalStation:
+          type: string
+        departureTime:
+          type: string
+      required:
+        - name
+        - departureStation
+        - arrivalStation
+        - departureTime
+
+    StationUpdate:
+      type: object
+      properties:
+        name:
+          type: string
+        openingTime:
+          type: string
+        closingTime:
+          type: string
+      required:
+        - name
+        - openingTime
+        - closingTime
+
+    Reservation:
+      type: object
+      properties:
+        userId:
+          type: string
+        trainId:
+          type: string
+        seatNumber:
+          type: string
+      required:
+        - userId
+        - trainId
+        - seatNumber
